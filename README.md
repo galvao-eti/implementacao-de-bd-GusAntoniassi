@@ -2,6 +2,25 @@
 
 Trabalho final da turma de 2019 da Disciplina Orientação a Objetos usando PHP como Linguagem de Implementação.
 
+Aluno: Gustavo Sabior Antoniassi
+
+## Como executar o projeto (com Docker)
+Para subir o servidor Apache + PostgreSQL + MariaDB, execute o seguinte comando:
+```
+docker-compose up -d
+```
+Depois, acesse o projeto em http://localhost:8080
+
+## Como executar o projeto (sem Docker)
+Para executar o projeto sem Docker, será necessário ter as extensões do PDO para os bancos que você desejar se conectar. 
+
+- Configure o arquivo `src/config/connections.php` com as credenciais de acesso aos bancos de dados. 
+- Caso não queira usar um dos bancos (PostgreSQL ou MariaDB), basta alterar a variável `$conexoesPermitidas` no arquivo `public/index.php`.
+- Execute o SQL que está em `.docker/db/initdb.sql` dentro da base para criar a tabela e inserir os registros.
+- Depois de configurar, execute o seguinte comando no terminal a partir da raíz do projeto: `php -S 0.0.0.0:8080 -t public`
+
+Depois, acesse o projeto em http://localhost:8080
+
 ## Orientações
 
 1. Inscreva-se no trabalho [neste link](https://classroom.github.com/a/M4OzaYm2);

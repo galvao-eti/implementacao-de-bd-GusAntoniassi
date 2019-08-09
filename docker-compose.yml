@@ -1,0 +1,46 @@
+version: '3'
+services:
+  web:
+    build: .docker/web
+    ports:
+      - "${WEB_PORT}:80"
+    volumes:
+      - ./:/var/www/html/
+      - .docker/web/apache.conf:/etc/apache2/sites-enabled/000-default.conf
+    environment:
+      DB_USER:
+      DB_NAME:
+      DB_PASSWORD:
+      POSTGRES_PORT: "5432"
+      MARIADB_PORT: "3306"
+    links:
+      - postgres
+      - mariadb
+    tty: true
+  postgres:
+    image: postgres:11.2
+    ports:
+      - "${POSTGRES_PORT}:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+      - .docker/db/initdb.sql:/docker-entrypoint-initdb.d/initdb.sql
+    environment:
+      POSTGRES_USER: "${DB_USER}"
+      POSTGRES_DB: "${DB_NAME}"
+      POSTGRES_PASSWORD: "${DB_PASSWORD}"
+    tty: true
+  mariadb:
+    image: mariadb:10.4
+    ports:
+      - "${MARIADB_PORT}:3306"
+    volumes: 
+      - mdb_data:/var/lib/mysql
+      - .docker/db/initdb.sql:/docker-entrypoint-initdb.d/initdb.sql
+    environment:
+      MYSQL_USER: "${DB_USER}"
+      MYSQL_DATABASE: "${DB_NAME}"
+      MYSQL_PASSWORD: "${DB_PASSWORD}"
+      MYSQL_ROOT_PASSWORD: "${DB_PASSWORD}"
+volumes:
+  pg_data:
+  mdb_data:
